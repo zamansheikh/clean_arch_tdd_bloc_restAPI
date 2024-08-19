@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:test_bloc/core/error/exception.dart';
 import 'package:test_bloc/core/secrets/app_key.dart';
 import 'package:test_bloc/features/number_trivia/data/models/number_trivia_model.dart';
 import 'package:test_bloc/features/number_trivia/domain/entities/number_trivia.dart';
@@ -22,14 +25,17 @@ class NumberTriviaLocalDataSourceImpl implements NumberTriviaLocalDataSource {
   Future<NumberTrivia> getLastNumberTrivia() {
     final jsonString = sharedPreferences.getString(CACHED_NUMBER_TRIVIA);
     if (jsonString != null) {
-      return Future.value(NumberTriviaModel.fromJson(jsonString));
+      return Future.value(NumberTriviaModel.fromJson(json.decode(jsonString)));
     } else {
-      throw Exception();
+      throw CacheException();
     }
   }
 
   @override
   Future<void> cacheNumberTrivia(NumberTrivia triviaToCache) {
-    throw UnimplementedError();
+    return sharedPreferences.setString(
+      CACHED_NUMBER_TRIVIA,
+      json.encode((triviaToCache as NumberTriviaModel).toJson()),
+    );
   }
 }
