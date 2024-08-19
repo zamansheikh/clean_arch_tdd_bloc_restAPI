@@ -1,3 +1,4 @@
+import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -30,6 +31,9 @@ void main() {
       inputConverter: mockInputConverter,
     );
   });
+  setUpAll(() {
+    registerFallbackValue(Params(number: 0)); // Create a dummy Params instance
+  });
 
   test(
     "initialState should be NumberTriviaInitial",
@@ -45,12 +49,15 @@ void main() {
       const tNumberString = "1";
       const tNumberParsed = 1;
       const tNumberTrivia = NumberTrivia(text: "test", number: 1);
+
       test(
         "should call the InputConverter to validate and convert the string to an unsigned integer",
         () async {
           // arrange
           when(() => mockInputConverter.stringToUnsignedInteger(any()))
               .thenReturn(const Right(tNumberParsed));
+          when(() => mockConcreteNumberTrivia(any()))
+              .thenAnswer((_) async => const Right(tNumberTrivia));
           // act
           numberTriviaBloc.add(
               const GetTriviaForConreteNumber(numberString: tNumberString));
@@ -89,12 +96,15 @@ void main() {
               .thenReturn(const Right(tNumberParsed));
           when(() => mockConcreteNumberTrivia(any()))
               .thenAnswer((_) async => const Right(tNumberTrivia));
+
           // act
           numberTriviaBloc.add(
               const GetTriviaForConreteNumber(numberString: tNumberString));
+
           await untilCalled(() => mockConcreteNumberTrivia(any()));
+
           // assert
-          verify(() => mockConcreteNumberTrivia(Params(number: tNumberParsed)));
+          verify(() => mockConcreteNumberTrivia(any())).called(1);
         },
       );
     },

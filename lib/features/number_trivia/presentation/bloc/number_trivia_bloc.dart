@@ -28,16 +28,15 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
           emit(const NumberTriviaError(message: INVALID_INPUT_FAILURE_MESSAGE));
         },
         (integer) async {
-          final failureOrTrivia =
+          // write code here for 3rd test fix this block
+          // Attempt to get trivia data
+          final triviaEither =
               await getConcreteNumberTrivia(Params(number: integer));
-          failureOrTrivia.fold(
-            (failure) {
-              emit(NumberTriviaInitial());
-              emit(NumberTriviaError(message: SERVER_FAILURE_MESSAGE));
-            },
-            (trivia) {
-              emit(NumberTriviaLoaded(trivia: trivia));
-            },
+
+          triviaEither.fold(
+            (failure) =>
+                emit(const NumberTriviaError(message: "Failed to get trivia")),
+            (trivia) => emit(NumberTriviaLoaded(trivia: trivia)),
           );
         },
       );
