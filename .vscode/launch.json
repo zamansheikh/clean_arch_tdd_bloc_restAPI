@@ -1,0 +1,17 @@
+{
+    //add a configuration for running tests for flutter tests
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Flutter Tests",
+            "request": "launch",
+            "type": "dart",
+            "program": "test/",
+            "args": [
+                "--no-sound-null-safety"
+            ]
+        }
+    ]
+    
+    
+}
