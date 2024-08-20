@@ -10,7 +10,6 @@ class NumberTriviaPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text('Number Trivia'),
         centerTitle: true,
@@ -35,7 +34,10 @@ class NumberTriviaPage extends StatelessWidget {
                 } else if (state is NumberTriviaLoading) {
                   return const CircularProgressIndicator();
                 } else if (state is NumberTriviaLoaded) {
-                  return TriviaView(message: state.trivia.text, number: state.trivia.number,);
+                  return TriviaView(
+                    message: state.trivia.text,
+                    number: state.trivia.number,
+                  );
                 } else if (state is NumberTriviaError) {
                   return MessageBody(message: state.message);
                 }
@@ -59,6 +61,11 @@ class NumberTriviaPage extends StatelessWidget {
                     border: OutlineInputBorder(),
                     hintText: 'Input a number',
                   ),
+                  onSubmitted: (value) {
+                    context
+                        .read<NumberTriviaBloc>()
+                        .add(GetTriviaForConreteNumber(numberString: value));
+                  },
                 ),
                 const SizedBox(height: 10),
                 Row(
