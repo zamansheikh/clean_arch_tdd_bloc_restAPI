@@ -29,7 +29,7 @@ class NumberTriviaRemoteDataSourceImpl implements NumberTriviaRemoteDataSource {
     });
     if (response.statusCode == 200) {
       return Future.value(
-          NumberTriviaModel.fromJson(json.decode(response.body)));
+          NumberTriviaModel.fromJson(response.body));
     } else {
       throw ServerException();
     }
@@ -40,7 +40,7 @@ class NumberTriviaRemoteDataSourceImpl implements NumberTriviaRemoteDataSource {
     final response = await client.get(Uri.parse('${TRIVIABASE_API_URL}random'),
         headers: {'Content-Type': 'application/json'});
     if (response.statusCode == 200) {
-      return NumberTriviaModel.fromJson(json.decode(response.body));
+      return NumberTriviaModel.fromJson(response.body);
     } else {
       throw ServerException();
     }

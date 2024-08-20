@@ -7,14 +7,16 @@ import 'package:test_bloc/features/number_trivia/data/models/number_trivia_model
 import 'package:test_bloc/features/number_trivia/domain/entities/number_trivia.dart';
 
 abstract class NumberTriviaLocalDataSource {
-  /// Gets the cached [NumberTriviaModel] which was gotten the last time
+  /// Gets the cached [NumberTriviaModel] which was retrieved the last time
   /// the user had an internet connection.
   ///
   /// Throws [CacheException] if no cached data is present.
   Future<NumberTrivia> getLastNumberTrivia();
 
+  /// Caches the [NumberTriviaModel] to local storage.
   Future<void> cacheNumberTrivia(NumberTrivia triviaToCache);
 }
+
 
 class NumberTriviaLocalDataSourceImpl implements NumberTriviaLocalDataSource {
   final SharedPreferences sharedPreferences;
@@ -25,7 +27,7 @@ class NumberTriviaLocalDataSourceImpl implements NumberTriviaLocalDataSource {
   Future<NumberTrivia> getLastNumberTrivia() {
     final jsonString = sharedPreferences.getString(CACHED_NUMBER_TRIVIA);
     if (jsonString != null) {
-      return Future.value(NumberTriviaModel.fromJson(json.decode(jsonString)));
+      return Future.value(NumberTriviaModel.fromJson(jsonString));
     } else {
       throw CacheException();
     }

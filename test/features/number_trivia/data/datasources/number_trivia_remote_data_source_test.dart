@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -25,8 +24,7 @@ void main() {
     'Get concrete number Trivia',
     () {
       const tNumber = 1;
-      final tNumberTriviaModel = NumberTriviaModel.fromJson(
-          json.decode(fixtureReader('trivia_cached.json')));
+      final tNumberTriviaModel = NumberTriviaModel.fromJson(fixtureReader('trivia_cached.json'));
       test(
         "should perform a GET request on a URL with number being the endpoint and with application/json header",
         () async {
@@ -91,8 +89,7 @@ void main() {
   group(
     'Get Random number Trivia',
     () {
-      final tNumberTriviaModel = NumberTriviaModel.fromJson(
-          json.decode(fixtureReader('trivia_cached.json')));
+      final tNumberTriviaModel = NumberTriviaModel.fromJson(fixtureReader('trivia_cached.json'));
       test(
         "should perform a GET request on a URL with number being the endpoint and with application/json header",
         () async {
