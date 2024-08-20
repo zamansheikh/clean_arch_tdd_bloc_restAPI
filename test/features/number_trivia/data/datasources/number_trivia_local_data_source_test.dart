@@ -24,13 +24,14 @@ void main() {
   group(
     'Get Last Number Trivia',
     () {
-      final tNumberTriviaModel = NumberTriviaModel.fromJson(fixtureReader('trivia_cached.json'));
+      final tNumberTriviaModel =
+          NumberTriviaModel.fromJson(fixtureReader('trivia_cached.json'));
       test(
         'should return NumberTrivia from SharedPreferences when there is one in the cache',
         () async {
           // Arrange
           when(() => mockSharedPreferences.getString(any()))
-              .thenReturn(fixtureReader('trivia_cached.json'));
+              .thenReturn(jsonEncode(fixtureReader('trivia_cached.json')));
           // Act
           final result = await dataSourceImpl.getLastNumberTrivia();
           // Assert
@@ -54,7 +55,8 @@ void main() {
   group(
     'CacheNumberTrivia',
     () {
-      final tNumberTriviaModel = NumberTriviaModel.fromJson(fixtureReader('trivia_cached.json'));
+      final tNumberTriviaModel =
+          NumberTriviaModel.fromJson(fixtureReader('trivia_cached.json'));
       test(
         "should call SharedPreferences to cache the data",
         () async {
@@ -66,7 +68,6 @@ void main() {
           // Assert
           verify(() => mockSharedPreferences.setString(
               CACHED_NUMBER_TRIVIA, json.encode(tNumberTriviaModel.toJson())));
-          
         },
       );
     },
