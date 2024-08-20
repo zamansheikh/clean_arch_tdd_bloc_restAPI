@@ -95,6 +95,24 @@ class NumberTriviaPage extends StatelessWidget {
                 ),
               ],
             ),
+
+            //Devider
+            const SizedBox(height: 20),
+            const Padding(
+              padding: EdgeInsets.all(10),
+              child: Divider(
+                height: 20,
+                thickness: 1,
+                color: Colors.green,
+              ),
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              'Made with ❤ by ZaMaN',
+              style: TextStyle(
+                fontSize: 10,
+              ),
+            ),
           ],
         ),
       ),
