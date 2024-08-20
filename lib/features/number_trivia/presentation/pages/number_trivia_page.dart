@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:test_bloc/features/number_trivia/presentation/bloc/number_trivia_bloc.dart';
+import 'package:test_bloc/features/number_trivia/presentation/widgets/message_body.dart';
+import 'package:test_bloc/features/number_trivia/presentation/widgets/trivia_view.dart';
 
 class NumberTriviaPage extends StatelessWidget {
   const NumberTriviaPage({super.key});
@@ -33,7 +35,7 @@ class NumberTriviaPage extends StatelessWidget {
                 } else if (state is NumberTriviaLoading) {
                   return const CircularProgressIndicator();
                 } else if (state is NumberTriviaLoaded) {
-                  return MessageBody(message: state.trivia.text);
+                  return TriviaView(message: state.trivia.text, number: state.trivia.number,);
                 } else if (state is NumberTriviaError) {
                   return MessageBody(message: state.message);
                 }
@@ -66,7 +68,7 @@ class NumberTriviaPage extends StatelessWidget {
                         onPressed: () {
                           context.read<NumberTriviaBloc>().add(
                               GetTriviaForConreteNumber(
-                                  numberString: 1.toString()));
+                                  numberString: numberController.text));
                         },
                         child: const Text('Search'),
                       ),
@@ -90,37 +92,5 @@ class NumberTriviaPage extends StatelessWidget {
         ),
       ),
     ));
-  }
-}
-
-class MessageBody extends StatelessWidget {
-  final String message;
-  const MessageBody({
-    super.key,
-    required this.message,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.grey,
-          width: 2,
-        ),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      height: MediaQuery.of(context).size.height / 3,
-      child: Center(
-        child: SingleChildScrollView(
-          child: Text(
-            message,
-            style: const TextStyle(
-              fontSize: 25,
-            ),
-          ),
-        ),
-      ),
-    );
   }
 }
