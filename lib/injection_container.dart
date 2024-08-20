@@ -39,8 +39,9 @@ Future<void> init() async {
   // Data sources
   sl.registerLazySingleton<NumberTriviaRemoteDataSource>(
       () => NumberTriviaRemoteDataSourceImpl(client: sl()));
-  sl.registerLazySingleton<NumberTriviaLocalDataSource>(
-      () => NumberTriviaLocalDataSourceImpl(sharedPreferences: sl()));
+  sl.registerLazySingleton<NumberTriviaLocalDataSource>(() =>
+      NumberTriviaLocalDataSourceImpl(
+          sharedPreferences: sl<SharedPreferences>()));
 
   //! Core
   sl.registerLazySingleton(() => InputConverter());

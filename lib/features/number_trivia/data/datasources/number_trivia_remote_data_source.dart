@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:test_bloc/core/error/exception.dart';
 import 'package:test_bloc/core/secrets/app_key.dart';
@@ -28,8 +26,7 @@ class NumberTriviaRemoteDataSourceImpl implements NumberTriviaRemoteDataSource {
       'Content-Type': 'application/json',
     });
     if (response.statusCode == 200) {
-      return Future.value(
-          NumberTriviaModel.fromJson(response.body));
+      return Future.value(NumberTriviaModel.fromJson(response.body));
     } else {
       throw ServerException();
     }

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_bloc/core/error/exception.dart';
 import 'package:test_bloc/core/secrets/app_key.dart';
@@ -17,21 +16,10 @@ abstract class NumberTriviaLocalDataSource {
   Future<void> cacheNumberTrivia(NumberTrivia triviaToCache);
 }
 
-
 class NumberTriviaLocalDataSourceImpl implements NumberTriviaLocalDataSource {
   final SharedPreferences sharedPreferences;
 
   NumberTriviaLocalDataSourceImpl({required this.sharedPreferences});
-
-  @override
-  Future<NumberTrivia> getLastNumberTrivia() {
-    final jsonString = sharedPreferences.getString(CACHED_NUMBER_TRIVIA);
-    if (jsonString != null) {
-      return Future.value(NumberTriviaModel.fromJson(jsonString));
-    } else {
-      throw CacheException();
-    }
-  }
 
   @override
   Future<void> cacheNumberTrivia(NumberTrivia triviaToCache) {
@@ -39,5 +27,20 @@ class NumberTriviaLocalDataSourceImpl implements NumberTriviaLocalDataSource {
       CACHED_NUMBER_TRIVIA,
       json.encode((triviaToCache as NumberTriviaModel).toJson()),
     );
+  }
+
+  @override
+  Future<NumberTrivia> getLastNumberTrivia() {
+    final jsonString = sharedPreferences.getString(CACHED_NUMBER_TRIVIA);
+    try {
+      if (jsonString != null) {
+        return Future.value(
+            NumberTriviaModel.fromJson(json.decode(jsonString)));
+      } else {
+        throw CacheException();
+      }
+    } catch (e) {
+      throw CacheException();
+    }
   }
 }
